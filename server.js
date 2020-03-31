@@ -4,6 +4,7 @@ const cors = require('cors'); // for working in localhost in safely
 const knex = require('knex'); // connecting server to database
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+const morgan = require('morgan'); // for logging
 
 const register = require('./controllers/register')
 const signin = require('./controllers/signin')
@@ -13,7 +14,7 @@ const image = require('./controllers/image')
 const db = knex({
   client: 'pg',
   connection: {
-    connectionString: process.env.DATABASE_URL,
+    connectionString : process.env.DATABASE_URL,
     ssl: true,
   }
 });
@@ -23,6 +24,7 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(cors());
+app.use(morgan('combined'));
 
 app.get('/', (req,res) => res.send('its working'))
 app.post('/signin', (req,res) => {signin.handleSignIn(req, res, db, bcrypt)})

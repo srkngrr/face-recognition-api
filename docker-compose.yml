@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+	# Backend API
+	face-recognition-api:
+		container_name: backend
+		build: ./
+		command: npm start
+		working_dir: /usr/src/face-recognition-api
+		ports:
+			- "3000:3000"
+		volumes: # connecting our local codes to container enviroment 
+			- ./:/usr/src/face-recognition-api
+
+	# Postgres
+	postgres:
+		image: postgres
+		ports:
+			- "5432:5432"
